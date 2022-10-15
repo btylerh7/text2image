@@ -9,7 +9,7 @@ export const createConverterObject = (req:Request, res:Response, next:NextFuncti
         throw new Error('Must include fileType, textType, and text')
     }
     const filetypes = ['png', 'jpeg', 'pdf']
-    if (req.query.filetype.toString() in filetypes == false) {
+    if (req.query.fileType.toString() in filetypes == false) {
         res.status(401)
         throw new Error('Filetype must be png, jpeg, or pdf')
     }

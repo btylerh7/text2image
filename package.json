@@ -5,8 +5,7 @@
   "main": "src/index.ts",
   "scripts": {
     "dev": "nodemon ./src/index.ts",
-    "build": "rm -rf ./dist && tsc",
-    "postinstall": "npm run build",
+    "postinstall": "rm -rf ./dist && tsc",
     "start": "node dist/server.js"
   },
   "keywords": [],

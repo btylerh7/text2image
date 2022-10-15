@@ -2,7 +2,7 @@
   "name": "text2image",
   "version": "1.0.0",
   "description": "An API that takes a text string and converts it to an image or pdf.",
-  "main": "index.ts",
+  "main": "src/index.ts",
   "scripts": {
     "dev": "nodemon ./src/index.ts",
     "ts:build": "rm -rf ./dist && tsc",

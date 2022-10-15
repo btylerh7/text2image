@@ -2,7 +2,7 @@ import express from 'express'
 
 const app = express()
 app.use(express.urlencoded({extended:true}))
-app.use('/api/converter', require('./api/v1/routes/converterRoutes.ts'))
+app.use('/api/converter', require('./api/v1/routes/converterRoutes'))
 
 app.listen(process.env.PORT || 3000, () => {
     console.log("app is listening...")

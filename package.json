@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon ./src/index.ts",
     "ts:build": "rm -rf ./dist && tsc",
-    "start": "node dist/server.js"
+    "start": "npm run ts:build && node dist/server.js"
   },
   "keywords": [],
   "author": "btylerh7",

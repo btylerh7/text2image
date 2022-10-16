@@ -3,10 +3,10 @@ import cors from 'cors'
 
 const app = express()
 app.use(express.urlencoded({extended:false}))
+app.use(express.json())
 app.use(cors({
     origin: "*"
 }))
-app.use(express.json())
 app.use('/api', require('./api/v1/routes/converterRoutes'))
 
 app.listen(process.env.PORT || 3000, () => {

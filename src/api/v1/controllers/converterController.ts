@@ -30,11 +30,13 @@ export const createImage = asyncHandler(async (req: Request, res: Response) => {
         }
         files.push(file)
     }
+    res.set('Content-Type', 'application/json')
     res.json({files: files})
 })
 
 export const getPages = asyncHandler(async (req: Request, res: Response) => {
     const converterObject = res.locals.converterObject
     const textInfo = calculatePages(converterObject)
+    res.set('Content-Type', 'application/json')
     res.json({pages: textInfo.totalPages, textByLine: textInfo.textbyLine, linesPerPage: textInfo.linesPerPage})
 })

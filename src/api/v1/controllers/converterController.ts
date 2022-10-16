@@ -4,6 +4,7 @@ import { Request, Response } from 'express'
 import { calculatePages } from '../services/pageCalculatorService'
 
 export const createImage = asyncHandler(async (req: Request, res: Response) => {
+    res.set('Content-Type', 'application/json')
     const converterObject = res.locals.converterObject
     const canvases = textToImage(converterObject)
 
@@ -30,13 +31,14 @@ export const createImage = asyncHandler(async (req: Request, res: Response) => {
         }
         files.push(file)
     }
-    res.set('Content-Type', 'application/json')
+    res.status(200)
     res.json({files: files})
 })
 
 export const getPages = asyncHandler(async (req: Request, res: Response) => {
+    res.set('Content-Type', 'application/json')
     const converterObject = res.locals.converterObject
     const textInfo = calculatePages(converterObject)
-    res.set('Content-Type', 'application/json')
+    res.status(200)
     res.json({pages: textInfo.totalPages, textByLine: textInfo.textbyLine, linesPerPage: textInfo.linesPerPage})
 })

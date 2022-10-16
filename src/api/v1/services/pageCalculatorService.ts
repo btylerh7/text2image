@@ -45,6 +45,7 @@ export const calculatePages = ( object: ConverterObject) => {
         textbyLine: finalText,
         textHeight,
         textWidth,
+        linesPerPage
     }
     return textInfo
 }

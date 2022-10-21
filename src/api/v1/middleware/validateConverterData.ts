@@ -10,9 +10,9 @@ export const validateConverterData = (req:Request, res:Response, next:NextFuncti
         throw new Error('fileType, textType, and text must be strings')
     }
     const query = req.query.fileType
-    if (query != 'png' && query != 'jpeg' && query != 'pdf') {
+    if (query != 'png' && query != 'jpeg') {
         res.status(400)
-        throw new Error('Filetype must be png, jpeg, or pdf')
+        throw new Error('Filetype must be png or jpeg')
     }
     next()
 }

@@ -8,23 +8,20 @@ export const createImage = asyncHandler(async (req: Request, res: Response) => {
     const canvases = textToImage(converterObject)
 
     const files = []
+    //TODO add pdf support
     for (let canvas of canvases){
         let file
         switch(converterObject.request.fileType){
             case 'png':
-                // res.set('Content-Type', 'image/png')
                 file = canvas.toBuffer('image/png').toJSON()
                 break
             case 'jpeg':
-                // res.set('Content-Type', 'image/jpeg')
                 file = canvas.toBuffer('image/jpeg').toJSON()
                 break
-            case 'pdf':
-                // res.set('Content-Type', 'application/pdf')
-                file = canvas.toBuffer('application/pdf').toJSON()
-                break
+            // case 'pdf':
+            //     file = canvas.toBuffer('application/pdf').toJSON()
+            //     break
             default:
-                // res.set('Content-Type', 'image/png')
                 file = canvas.toBuffer('image/png').toJSON()
                 break
         }

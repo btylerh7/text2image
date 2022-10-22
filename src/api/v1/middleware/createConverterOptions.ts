@@ -18,8 +18,8 @@ export const createConverterObject = (req:Request, res:Response, next:NextFuncti
     }
     const converterObject: ConverterObject = {
         request: {
-            fileType: req.query.fileType.toString(), // png, jpeg, pdf
-            textType: req.query.textType.toString(), // ex. html or plainText
+            fileType: req.query.fileType.toString(), // png, jpeg
+            textType: req.query.textType.toString(), // ex. plainText or lz-string
             text: text,
         },
         options: converterOptions,

@@ -2,7 +2,6 @@ import { ConverterObject } from "../interfaces/index"
 import { createCanvas, registerFont } from 'canvas'
 
 export const calculatePages = ( object: ConverterObject) => {
-    console.log(object.request.text)
     //TODO add all supported fonts via this method and unregister others
     registerFont('src/api/v1/config/fonts/HinaMincho-Regular.ttf', { family: 'Hina Mincho' })
 

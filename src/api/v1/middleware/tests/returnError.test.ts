@@ -2,7 +2,6 @@ import chai from 'chai'
 import chaiHttp from "chai-http"
 import { app } from '../../../../index'
 
-//TODO chai-http isn't running middleware
 describe('Verify that returnError function works', () => {
     const expect = chai.expect
     chai.use(chaiHttp)
@@ -12,11 +11,12 @@ describe('Verify that returnError function works', () => {
         .get(`/api/converter`)
         .query({
             fileType: 'png',
-            text: 'test'
+            text: 'test',
         })
         .end((err, res) => {
+            console.log(res.body)
             expect(res.status, 'status was not 400').to.be.equal(400)
-            expect(res.body, 'did not return json').to.be.json
+            expect(res.body, 'did not return error').to.be.instanceOf(Object)
             done()
         })
     })

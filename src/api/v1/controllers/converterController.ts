@@ -18,9 +18,6 @@ export const createImage = asyncHandler(async (req: Request, res: Response) => {
             case 'jpeg':
                 file = canvas.toBuffer('image/jpeg').toJSON()
                 break
-            default:
-                file = canvas.toBuffer('image/png').toJSON()
-                break
         }
         files.push(file)
     }

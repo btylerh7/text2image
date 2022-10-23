@@ -18,7 +18,8 @@ export const returnError = (res:Response, error: string, test:boolean) => {
     })
 }
 
-export const validateConverterData = async (req:Request, res:Response, next:NextFunction, test?:boolean) => {
+export const validateConverterData = (req:Request, res:Response, next:NextFunction, test?:boolean) => {
+    console.log('hello from validate function', req.query)
     const testCheck = test ? test : false
     if (!req.query.fileType || !req.query.textType || !req.query.text) {
         return returnError(res, 'Must include fileType, textType, and text', testCheck)
@@ -33,9 +34,9 @@ export const validateConverterData = async (req:Request, res:Response, next:Next
         return returnError(res, 'Filetype must be png or jpeg', testCheck)
     }
     if (req.query.padding) {
-        if (typeof(req.query.padding) != 'string') {
-            return returnError(res, 'Padding must be a string', testCheck)
-        }
+        // if (typeof(req.query.padding) != 'string') {
+        //     return returnError(res, 'Padding must be a string', testCheck)
+        // }
         if (isNaN(Number(req.query.padding))) {
             return returnError(res, 'Padding must be in numerical format (ex. 30). For example, it cannot be "thirty".', testCheck)
         }

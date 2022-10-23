@@ -5,6 +5,7 @@ import LZString from "lz-string"
 
 
 export const createConverterObject = (req:Request, res:Response, next:NextFunction) => {    
+    console.log('hello from create converter object function', req.query)
     for (let key of Object.keys(req.query)) {
         if (converterOptions.hasOwnProperty(key)) {
             converterOptions[key] = req.query[key].toString()

@@ -26,7 +26,7 @@ export const createConverterTestingData = async ():Promise<string> => {
     return text
 }
 
-describe('Testing Conversion', () => {
+describe('Testing Controllers', () => {
     
     
     it('get-page-info', async () => {
@@ -60,8 +60,23 @@ describe('Testing Conversion', () => {
             expect(dimensions.height, 'Height is not 700').to.be.equal(700)
             expect(dimensions.type, 'Image is not png').to.be.equal('png')
         })
-        
+        return 'done'
+    })
 
-        
+    it('test jpeg filetype', async () => {
+        chai.request(app)
+        .get(`/api/converter?fileType=jpeg&textType=plainText&text=test`)
+        .end((err, res) => {
+            const data = res.body
+            const buffer = Buffer.from(data.files[0].data)
+            const dimensions = sizeOf(buffer)
+
+            expect(res.status, 'Status was not 200').to.be.equal(200)
+            expect(data.files, 'No files from request').to.be.not.empty
+            expect(data.files[0].data, 'No image data returned in files').to.be.not.empty
+            expect(buffer, 'Data returned was not image data').to.be.instanceof(Buffer)
+            expect(dimensions.type, 'Image is not png').to.be.equal('jpg')
+        })
+        return 'done'
     })
 })

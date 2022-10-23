@@ -1,6 +1,5 @@
 import chai from 'chai'
 import {Request, Response, NextFunction} from 'express'
-import { Done } from 'mocha'
 import { validateConverterData } from '../validateConverterData'
 
 const expect = chai.expect
@@ -89,3 +88,29 @@ describe('Validate file type', async () => {
 // Validate text type
 
 // Validate padding
+
+describe('Testing Converter Options', () => {
+    let mockRequest: Partial<Request>
+    let mockResponse: Partial<Response>
+    let next: Partial<NextFunction>
+    beforeEach(() => {
+        mockRequest = {
+            query: {}
+        }
+        mockResponse = {}
+    })
+
+    it('Check if padding is written with numbers, not letters', async () => {
+        mockRequest.query = {
+            fileType: 'png',
+            textType: 'plainText',
+            text: 'test',
+            padding: 'thirty'
+        }
+        const data = await validateConverterData(mockRequest as Request, mockResponse as Response, next as NextFunction, true)
+        expect(data.data, 'Function returned nothing').to.be.not.empty
+        expect(data.data.status, 'Status was not 400').to.be.equal(400)
+        expect(data.data.error, 'Error not correct').to.be.equal('Padding must be in numerical format (ex. 30). For example, it cannot be "thirty".')
+        return 'done'
+    })
+})

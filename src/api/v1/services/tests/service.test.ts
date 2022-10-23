@@ -43,6 +43,3 @@ describe('Testing Page Count', () => {
     })
 })
 
-//TODO Test Page Counter service
-//TODO Test converter service
-

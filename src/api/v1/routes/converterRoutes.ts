@@ -4,8 +4,8 @@ import { createConverterObject, validateConverterData } from "../middleware/inde
 
 const router = Router()
 
-router.get('/converter', validateConverterData, createConverterObject, createImage)
-router.get('/page-count', validateConverterData, createConverterObject, getPages)
+router.get('/converter', [validateConverterData, createConverterObject], createImage)
+router.get('/page-count', [validateConverterData, createConverterObject], getPages)
 
 
 module.exports = router

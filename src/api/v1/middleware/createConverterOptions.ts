@@ -5,8 +5,11 @@ import LZString from "lz-string"
 import { ApiError } from "../interfaces/ApiError"
 
 
-export const createConverterObject = (req:Request, res:Response, next:NextFunction) => {    
-    if (req.query.isError == 'true') { return next()}
+export const createConverterObject = (req:Request, res:Response, next:NextFunction) => {
+    console.log('converter object being created')    
+    if (req.query.isError == 'true') {
+        return next()
+    }
     try {
         for (let key of Object.keys(req.query)) {
             if (converterOptions.hasOwnProperty(key)) {
@@ -29,7 +32,8 @@ export const createConverterObject = (req:Request, res:Response, next:NextFuncti
         }
         res.locals.converterObject = converterObject  
         next()
-    } catch (err) {
+    } catch (error) {
+        const err = ApiError.internal('something went wrong')
         next(err)
     }
 }

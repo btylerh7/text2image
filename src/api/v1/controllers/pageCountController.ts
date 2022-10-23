@@ -3,7 +3,7 @@ import { Request, Response } from 'express'
 import { calculatePages } from '../services/pageCalculatorService'
 
 export const getPages = asyncHandler(async (req: Request, res: Response) => {
-    res.set('Content-Type', 'application/json')
+    // res.set('Content-Type', 'application/json')
     const converterObject = res.locals.converterObject
     const textInfo = await calculatePages(converterObject)
     res.status(200)

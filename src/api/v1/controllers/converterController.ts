@@ -4,6 +4,9 @@ import { Request, Response } from 'express'
 
 export const createImage = asyncHandler(async (req: Request, res: Response) => {
     // res.set('Content-Type', 'application/json')
+    if (res.statusCode == 400) {
+        return
+    }
     const converterObject = res.locals.converterObject
     const canvases = await textToImage(converterObject)
 

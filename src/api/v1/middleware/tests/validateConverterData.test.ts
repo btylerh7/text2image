@@ -1,9 +1,6 @@
 import chai from 'chai'
-import {Request, Response, NextFunction} from 'express'
-import { validateConverterData } from '../validateConverterData'
 import chaiHttp from 'chai-http'
 import { app } from '../../../../index'
-import { Done } from 'mocha'
 const expect = chai.expect
 chai.use(chaiHttp)
 
@@ -63,7 +60,9 @@ describe('Validate Required Text', async () => {
         .query({
             fileType: 'png',
             textType: 'plainText',
-            text: 'test'
+            text: 'test',
+            padding: '30',
+
         })
         .end((err, res) => {
             const data = res.body
@@ -81,7 +80,7 @@ describe('Validate file type', () => {
         .query({
             fileType: 'pdf',
             textType: 'plainText',
-            text: 'test'
+            text: 'test',
         })
         .end((err, res) => {
             const data = res.body

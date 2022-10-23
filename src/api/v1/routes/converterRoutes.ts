@@ -4,12 +4,12 @@ import { createConverterObject, handleApiError, validateConverterData } from "..
 
 const router = Router()
 
-router.use(validateConverterData)
-router.use(createConverterObject)
-router.use(handleApiError)
+// router.use(validateConverterData)
+// router.use(createConverterObject)
+// router.use(handleApiError)
 
-router.get('/converter', createImage)
-router.get('/page-count', getPages)
+router.get('/converter', validateConverterData, createConverterObject, handleApiError, createImage)
+router.get('/page-count', validateConverterData, createConverterObject, handleApiError, getPages)
 
 
 module.exports = router

@@ -4,7 +4,6 @@ import { ApiError } from "../interfaces/ApiError";
 
 export const handleApiError = (err: any ,req:Request, res: Response, next: NextFunction) => {
     if(err) {
-        console.log('error being handled')
     }
     if (err instanceof ApiError) {
         res.status(err.status)

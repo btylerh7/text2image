@@ -5,7 +5,6 @@ import { ApiError } from '../interfaces/ApiError'
 
 
 export const validateConverterData = (req:Request, res:Response, next:NextFunction) => {
-    console.log('response being validated')
     if (!req.query.fileType || !req.query.textType || !req.query.text) {
         req.query.isError = 'true'
         const err = ApiError.badRequest('Must include fileType, textType, and text')

@@ -6,7 +6,6 @@ import { ApiError } from "../interfaces/ApiError"
 
 
 export const createConverterObject = (req:Request, res:Response, next:NextFunction) => {
-    console.log('converter object being created')    
     if (req.query.isError == 'true') {
         return next()
     }

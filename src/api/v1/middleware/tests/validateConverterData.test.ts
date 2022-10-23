@@ -1,87 +1,96 @@
 import chai from 'chai'
 import {Request, Response, NextFunction} from 'express'
 import { validateConverterData } from '../validateConverterData'
-
+import chaiHttp from 'chai-http'
+import { app } from '../../../../index'
+import { Done } from 'mocha'
 const expect = chai.expect
+chai.use(chaiHttp)
 
-describe('Validate Required Text', async () => {
-    let mockRequest: Partial<Request>
-    let mockResponse: Partial<Response>
-    let next: Partial<NextFunction>
-    beforeEach(() => {
-        mockRequest = {
-            query: {}
-        }
-        mockResponse = {}
-    })
-    it('Check no file type', async () => {
-        mockRequest.query = {
+
+describe('Validate Required Text', () => {
+    it('Check no file type', (done:Done) => {
+        chai.request(app).keepOpen()
+        .get(`/api/converter`)
+        .query({
             textType: 'plainText',
-            text: 'test'
-        }
-        const data = await validateConverterData(mockRequest as Request, mockResponse as Response, next as NextFunction, true)
-        expect(data.data, 'Function returned nothing').to.be.not.empty
-        expect(data.data.status, 'Status was not 400').to.be.equal(400)
-        expect(data.data.error, 'Error not correct').to.be.equal('Must include fileType, textType, and text')
-
+            text: 'test',
+        })
+        .end((err, res) => {
+            console.log(res.body)
+            const data = res.body
+            expect(data, 'Function returned nothing').to.be.not.empty
+            expect(res.status, 'Status was not 400').to.be.equal(400)
+            expect(data.error.message, 'Error not correct').to.be.equal('Must include fileType, textType, and text')
+        })
+        done()
     })
 
-    it('Check no text type', async () => {
-        mockRequest.query = {
+    it('Check no text type', (done: Done) => {
+        chai.request(app).keepOpen()
+        .get(`/api/converter`)
+        .query({
             fileType: 'png',
             text: 'test'
-        }
-        const data = await validateConverterData(mockRequest as Request, mockResponse as Response, next as NextFunction, true)
-        expect(data.data, 'Function returned nothing').to.be.not.empty
-        expect(data.data.status, 'Status was not 400').to.be.equal(400)
-        expect(data.data.error, 'Error not correct').to.be.equal('Must include fileType, textType, and text')
+        })
+        .end((err, res) => {
+            const data = res.body
+            expect(data.data, 'Function returned nothing').to.be.not.empty
+            expect(res.status, 'Status was not 400').to.be.equal(400)
+            expect(data.error.message, 'Error not correct').to.be.equal('Must include fileType, textType, and text')
+        })
+        done()
     })
 
-    it('Check no text', async () => {
-        mockRequest.query = {
+    it('Check no text', (done:Done) => {
+        chai.request(app).keepOpen()
+        .get(`/api/converter`)
+        .query({
             fileType: 'png',
             textType: 'plainText'
-        }
-        const data = await validateConverterData(mockRequest as Request, mockResponse as Response, next as NextFunction, true)
-        expect(data.data, 'Function returned nothing').to.be.not.empty
-        expect(data.data.status, 'Status was not 400').to.be.equal(400)
-        expect(data.data.error, 'Error not correct').to.be.equal('Must include fileType, textType, and text')
+        })
+        .end((err, res) => {
+            const data = res.body
+            expect(data.data, 'Function returned nothing').to.be.not.empty
+            expect(res.status, 'Status was not 400').to.be.equal(400)
+            expect(data.error.message, 'Error not correct').to.be.equal('Must include fileType, textType, and text')
+        })
+        done()
     })
 
-    it('Check correct request', async () => {
-        mockRequest.query = {
+    it('Check correct request', (done: Done) => {
+        chai.request(app).keepOpen()
+        .get(`/api/converter`)
+        .query({
             fileType: 'png',
             textType: 'plainText',
             text: 'test'
-        }
-        const data = await validateConverterData(mockRequest as Request, mockResponse as Response, next as NextFunction, true)
-        expect(data.data, 'Function returned nothing').to.be.not.empty
-        expect(data.data.status, 'Status was not 200').to.be.equal(200)
-        expect(data.data.error, 'Error happened').to.be.equal('none')
+        })
+        .end((err, res) => {
+            const data = res.body
+            expect(data.data, 'Function returned nothing').to.be.not.empty
+            expect(data.data.files, 'no files returned').to.be.not.empty
+            expect(res.status, 'Status was not 200').to.be.equal(200)
+        })
+        done()
     })
 })
-describe('Validate file type', async () => {
-    let mockRequest: Partial<Request>
-    let mockResponse: Partial<Response>
-    let next: Partial<NextFunction>
-    beforeEach(() => {
-        mockRequest = {
-            query: {}
-        }
-        mockResponse = {}
-    })
-
-    it('Check incorrect file type', async () => {
-        mockRequest.query = {
+describe('Validate file type', () => {
+    it('Check incorrect file type', (done:Done) => {
+        chai.request(app).keepOpen()
+        .get(`/api/converter`)
+        .query({
             fileType: 'pdf',
             textType: 'plainText',
             text: 'test'
-        }
-        const data = await validateConverterData(mockRequest as Request, mockResponse as Response, next as NextFunction, true)
-        expect(data.data, 'Function returned nothing').to.be.not.empty
-        expect(data.data.status, 'Status was not 400').to.be.equal(400)
-        expect(data.data.error, 'Error not correct').to.be.equal('Filetype must be png or jpeg')
-        return 'done'
+        })
+        .end((err, res) => {
+            const data = res.body
+            expect(data.data, 'Function returned nothing').to.be.not.empty
+            expect(res.status, 'Status was not 400').to.be.equal(400)
+            expect(data.error.message, 'Error not correct').to.be.equal('Filetype must be png or jpeg')
+        })
+        done()
     })
 })
 
@@ -90,27 +99,21 @@ describe('Validate file type', async () => {
 // Validate padding
 
 describe('Testing Converter Options', () => {
-    let mockRequest: Partial<Request>
-    let mockResponse: Partial<Response>
-    let next: Partial<NextFunction>
-    beforeEach(() => {
-        mockRequest = {
-            query: {}
-        }
-        mockResponse = {}
-    })
-
-    it('Check if padding is written with numbers, not letters', async () => {
-        mockRequest.query = {
+    it('Check if padding is written with numbers, not letters', (done: Done) => {
+        chai.request(app).keepOpen()
+        .get(`/api/converter`)
+        .query({
             fileType: 'png',
             textType: 'plainText',
             text: 'test',
-            padding: 'thirty'
-        }
-        const data = await validateConverterData(mockRequest as Request, mockResponse as Response, next as NextFunction, true)
-        expect(data.data, 'Function returned nothing').to.be.not.empty
-        expect(data.data.status, 'Status was not 400').to.be.equal(400)
-        expect(data.data.error, 'Error not correct').to.be.equal('Padding must be in numerical format (ex. 30). For example, it cannot be "thirty".')
-        return 'done'
+            padding: 'thirty',
+        })
+        .end((err, res) => {
+            const data = res.body
+            expect(data.data, 'Function returned nothing').to.be.not.empty
+            expect(res.status, 'Status was not 400').to.be.equal(400)
+            expect(data.error.message, 'Error not correct').to.be.equal('Padding must be in numerical format (ex. 30). For example, it cannot be "thirty".')
+        })
+        done()
     })
 })

@@ -3,7 +3,7 @@ import asyncHandler from 'express-async-handler'
 import { Request, Response } from 'express'
 
 export const createImage = asyncHandler(async (req: Request, res: Response) => {
-    res.set('Content-Type', 'application/json')
+    // res.set('Content-Type', 'application/json')
     const converterObject = res.locals.converterObject
     const canvases = await textToImage(converterObject)
 

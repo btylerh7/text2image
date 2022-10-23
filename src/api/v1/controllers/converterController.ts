@@ -5,7 +5,7 @@ import { Request, Response } from 'express'
 export const createImage = asyncHandler(async (req: Request, res: Response) => {
     res.set('Content-Type', 'application/json')
     const converterObject = res.locals.converterObject
-    const canvases = textToImage(converterObject)
+    const canvases = await textToImage(converterObject)
 
     const files = []
     //TODO add pdf support
@@ -18,9 +18,6 @@ export const createImage = asyncHandler(async (req: Request, res: Response) => {
             case 'jpeg':
                 file = canvas.toBuffer('image/jpeg').toJSON()
                 break
-            // case 'pdf':
-            //     file = canvas.toBuffer('application/pdf').toJSON()
-            //     break
             default:
                 file = canvas.toBuffer('image/png').toJSON()
                 break

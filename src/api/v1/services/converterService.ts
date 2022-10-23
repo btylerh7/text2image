@@ -1,13 +1,13 @@
 import { ConverterObject } from "../interfaces/index"
-import { createCanvas, registerFont } from 'canvas'
+import { createCanvas, registerFont, Canvas } from 'canvas'
 import { calculatePages } from "./pageCalculatorService"
 
-export const textToImage = ( object: ConverterObject) => {
+export const textToImage = async ( object: ConverterObject) => {
     //TODO add all supported fonts via this method and unregister others
     registerFont('src/api/v1/config/fonts/HinaMincho-Regular.ttf', { family: 'Hina Mincho' })
     
-    let textInfo = calculatePages(object)
-    const canvases = []
+    let textInfo = await calculatePages(object)
+    const canvases: Canvas[] = []
     for (let page = 0; page < textInfo.totalPages; page ++) {
         const canvas = createCanvas(Number(object.options.width), Number(object.options.height))
         const context = canvas.getContext('2d')

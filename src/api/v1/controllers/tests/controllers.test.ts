@@ -5,6 +5,7 @@ import LZString from 'lz-string'
 import sizeOf from 'buffer-image-size'
 import chaiHttp from 'chai-http'
 import { app } from '../../../../index'
+import { Done } from 'mocha'
 
 const expect = chai.expect
 chai.use(chaiHttp)
@@ -38,10 +39,9 @@ describe('Testing Conversion', () => {
             expect(data.pages, 'No pages count returned').to.be.not.null
             expect(data.textByLine, 'No text by line returned').to.be.not.empty
             expect(data.linesPerPage, 'No lines per page returned').to.be.not.null
-            })
+        })
+        return 'done'
         
-
-
     })
 
     it('convert-page', async () => {
@@ -63,17 +63,5 @@ describe('Testing Conversion', () => {
         
 
         
-    })
-})
-
-describe('Testing Conversion Errors', () => {
-
-    it('fileType error', async () => {
-        chai.request(app)
-        .get(`/api/page-count?fileType=pdf&textType=lz-string&text=${await createConverterTestingData()}${URL_OPTIONS}`)
-        .end((err, res) => {
-            expect(res.status, 'Status is not 400').to.be.equal(400)
-            expect(res.body.error.message, 'Body does not display error message').to.be.equal('Filetype must be png or jpeg')
-        })
     })
 })

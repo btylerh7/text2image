@@ -24,10 +24,11 @@ export const validateConverterData = (req:Request, res:Response, next:NextFuncti
         
     }
     if (req.query.padding) {
+        const padding = Number(req.query.padding)
         // if (typeof(req.query.padding) != 'string') {
         //     return returnError(res, 'Padding must be a string', testCheck)
         // }
-        if (isNaN(Number(req.query.padding))) {
+        if (isNaN(padding)) {
             const err = ApiError.badRequest('Padding must be in numerical format (ex. 30). For example, it cannot be "thirty".')
             req.query.isError = 'true'
             next(err)

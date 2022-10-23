@@ -6,10 +6,12 @@ import { ApiError } from '../interfaces/ApiError'
 
 export const validateConverterData = (req:Request, res:Response, next:NextFunction) => {
     if (!req.query.fileType || !req.query.textType || !req.query.text) {
+        req.query.isError = 'true'
         const err = ApiError.badRequest('Must include fileType, textType, and text')
         next(err)
     }
     if (typeof(req.query.fileType) != 'string' || typeof(req.query.fileType) != 'string' || typeof(req.query.fileType) != 'string' ) {
+        req.query.isError = 'true'
         const err = ApiError.badRequest('fileType, textType, and text must be strings')
         next(err)
     }
@@ -17,6 +19,7 @@ export const validateConverterData = (req:Request, res:Response, next:NextFuncti
 
     if (query != 'png' && query != 'jpeg') {
         const err = ApiError.badRequest('Filetype must be png or jpeg')
+        req.query.isError = 'true'
         next(err)
         
     }
@@ -26,6 +29,7 @@ export const validateConverterData = (req:Request, res:Response, next:NextFuncti
         // }
         if (isNaN(Number(req.query.padding))) {
             const err = ApiError.badRequest('Padding must be in numerical format (ex. 30). For example, it cannot be "thirty".')
+            req.query.isError = 'true'
             next(err)
         }
     }
